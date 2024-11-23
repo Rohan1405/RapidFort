@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDF Conversion Result</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container">
+            <a class="navbar-brand" href="#">DOCX to PDF Converter</a>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#">Result</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-5 text-center">
+        <div class="card shadow-lg p-4 mb-4" style="border-radius: 15px;">
+            <h1 class="display-4 text-success">PDF Conversion Completed!</h1>
+            <p class="lead text-muted">Your DOCX file has been successfully converted to PDF. Below are the details:</p>
+        </div>
+
+        <div class="card shadow-sm p-4 mb-4" style="border-radius: 15px;">
+            <h2 class="h4 text-primary">Conversion Details</h2>
+            <ul class="list-unstyled">
+                <li><strong>Filename:</strong> {{ metadata['Filename'] }}</li>
+                <li><strong>File Size:</strong> {{ metadata['File Size'] }} bytes</li>
+                <li><strong>Converted To:</strong> PDF</li>
+            </ul>
+        </div>
+
+        <div class="card shadow-sm p-4 mb-4" style="border-radius: 15px;">
+            <h3 class="h5 text-info">Download Your PDF</h3>
+            <form action="/result" method="POST">
+                <input type="hidden" name="pdf_path" value="{{ pdf_path }}">
+
+                <label for="password_option">Do you want a password-protected PDF?</label>
+                <select name="password_option" id="password_option" class="form-select my-3">
+                    <option value="no">No</option>
+                    <option value="protected">Yes</option>
+                </select>
+
+                <div id="password_field" style="display: none;">
+                    <label for="password" class="form-label">Enter a password for PDF:</label>
+                    <input type="password" name="password" id="password" class="form-control my-3">
+                </div>
+
+                <button type="submit" class="btn btn-success btn-lg w-100 mt-3">Download PDF</button>
+            </form>
+        </div>
+
+        <div class="text-center mt-3">
+            <a href="/" class="btn btn-secondary btn-lg">Back to Home</a>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('password_option').addEventListener('change', function() {
+            var passwordField = document.getElementById('password_field');
+            if (this.value === 'protected') {
+                passwordField.style.display = 'block';
+            } else {
+                passwordField.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>
